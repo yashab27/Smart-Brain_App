@@ -41,6 +41,10 @@ class App extends Component{
     super();
     this.state=initialState;
   }
+ componentDidMount(){
+   fetch('https://thawing-shelf-03805.herokuapp.com')
+   .then(response=>response.json()).then(data)
+ }
  
   loadUser=(data)=>{
     this.setState({user:{
