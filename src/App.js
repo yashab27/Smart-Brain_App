@@ -10,6 +10,7 @@ import Register from './components/Register/Register';
 import ImagelinkForm from './components/ImagelinkForm/ImagelinkForm';
 
 
+
 const particlesOptions={
   particles:{
     number:{
@@ -23,7 +24,7 @@ const particlesOptions={
 }
 
 const initialState={
-  inpu: '',
+      input: '',
       imageUrl: '',
       box:{},
       route: 'signin',
@@ -41,7 +42,8 @@ class App extends Component{
     super();
     this.state=initialState;
   }
- 
+
+
   loadUser=(data)=>{
     this.setState({user:{
       id:data.id,
@@ -74,19 +76,19 @@ class App extends Component{
   this.setState({input:event.target.value});
   }
 
-  onButtonSubmit=()=>{
-    this.setState({imageUrl: this.state.input});
-    fetch('https://thawing-shelf-03805.herokuapp.com/imageurl',{
-      method:'post',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        input:this.state.input
-      })
+ onButtonSubmit=()=>{
+  this.setState({imageUrl: this.state.input});
+  fetch('https://warm-woodland-35440.herokuapp.com/imageUrl',{
+    method:'post',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      input:this.state.input
     })
-    .then(response=>response.json())
-    .then(response=>{
+  })
+  .then(response=>response.json())
+    .then(response =>{
       if(response){
-        fetch('https://thawing-shelf-03805.herokuapp.com/image',{
+        fetch('https://warm-woodland-35440.herokuapp.com/image',{
           method:'put',
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify({
@@ -95,15 +97,15 @@ class App extends Component{
         })
         .then(response=>response.json())
         .then(count=>{
-          this.setState(Object.assign(this.state.user,{entries:count}))
+          this.setState(Object.assign(this.state.user,{entries: count}))
         })
         .catch(console.log)
+       
       }
-      this.displayFacebox(this.calculateFacelocation(response))
-    })
+    this.displayFacebox(this.calculateFacelocation(response))})
     .catch(err=>console.log(err));
-        
   }
+
 
   onRouteChange=(route)=>{
     if(route==='signout'){
@@ -125,8 +127,7 @@ class App extends Component{
        {route==='home'
        ?<div>
        <Logo/> 
-       <Rank 
-       name={this.state.user.name}
+       <Rank name={this.state.user.name} 
        entries={this.state.user.entries}/>
        <ImagelinkForm 
        onInputChange={this.onInputChange} 
@@ -135,8 +136,8 @@ class App extends Component{
        box={box} imageUrl={imageUrl}/></div>
        :(
      route==='signin'
-     ?<Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-     :<Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+     ?<Signin  loadUser={this.loadUser}  onRouteChange={this.onRouteChange}/>
+     :<Register loadUser={this.loadUser}  onRouteChange={this.onRouteChange}/>
        ) 
        
        }
